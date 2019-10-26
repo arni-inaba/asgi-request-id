@@ -27,20 +27,21 @@ class RequestIDMiddleware:
         self.prefix = prefix
 
     async def __call__(self, scope, receive, send):
-        if scope["type"] == "http":
-            headers = self.get_headers(scope)
-            request_id = headers.get(self.incoming_id_header)
-            if not request_id:
-                request_id = self.prefix + str(uuid4())
-            _request_id_ctx_var.set(request_id)
-
         def send_wrapper(response):
             response_headers = response.get("headers")
             if response_headers:
                 response["headers"].append((b"request-id", request_id.encode()))
             return send(response)
 
-        await self.app(scope, receive, send_wrapper)
+        if scope["type"] == "http":
+            headers = self.get_headers(scope)
+            request_id = headers.get(self.incoming_id_header)
+            if not request_id:
+                request_id = self.prefix + str(uuid4())
+            _request_id_ctx_var.set(request_id)
+            await self.app(scope, receive, send_wrapper)
+        else:
+            await self.app(scope, receive, send)
 
     def get_headers(self, scope):
         headers = {}
