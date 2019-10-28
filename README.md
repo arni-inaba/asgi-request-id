@@ -49,4 +49,4 @@ If it is not found, an unique request id with an optional prefix is generated.
 The request id is stored in a context variable and made available via 
 `get_request_id`
 
-Finally, it is set as the `request_id` response header.
+Finally, it is set as the `request-id` response header.

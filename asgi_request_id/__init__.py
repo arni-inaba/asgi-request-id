@@ -1,1 +1,1 @@
-from .middleware import RequestIDMiddleware, get_request_id
+from .middleware import RequestIDMiddleware, get_request_id  # noqa
