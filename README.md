@@ -1,6 +1,10 @@
 asgi-request-id
 ===============
 
+[![PyPI Downloads](https://img.shields.io/pypi/dm/asgi-request-id.svg)](https://pypi.org/project/asgi-request-id/)
+[![PyPI Version](https://img.shields.io/pypi/v/asgi-request-id.svg)](https://pypi.org/project/asgi-request-id/)
+[![License](https://img.shields.io/badge/license-mit-blue.svg)](https://pypi.org/project/asgi-request-id)
+
 This was developed at [GRID](https://github.com/GRID-is) for use with our
 python backend services and intended to make it easier to log/generate 
 request IDs.
