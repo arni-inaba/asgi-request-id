@@ -54,3 +54,6 @@ The request id is stored in a context variable and made available via
 `get_request_id`
 
 Finally, it is set as the `request_id` response header.
+
+If you want to use it with python 3.6, you need to install the backported
+ [contextvars](https://github.com/MagicStack/contextvars) package.
