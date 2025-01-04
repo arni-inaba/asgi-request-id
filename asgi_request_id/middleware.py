@@ -14,23 +14,27 @@ class RequestIDMiddleware:
     Args:
       app (ASGI application): ASGI application
       incoming_request_id_header (string): Optional incoming request ID header
+      outgoing_request_id_header (string): Optional outgoing request ID header
       prefix (string): Optional prefix for self generated request IDs
     """
 
-    def __init__(self, app, incoming_request_id_header=None, prefix=None):
+    def __init__(self, app, incoming_request_id_header=None, outgoing_request_id_header=None, prefix=None):
         if incoming_request_id_header is None:
             incoming_request_id_header = "request-id"
+        if outgoing_request_id_header is None:
+            outgoing_request_id_header = "request-id"
         if prefix is None:
             prefix = ""
         self.app = app
         self.incoming_id_header = incoming_request_id_header.lower()
+        self.outgoing_id_header = outgoing_request_id_header.lower()
         self.prefix = prefix
 
     async def __call__(self, scope, receive, send):
         def send_wrapper(response):
             response_headers = response.get("headers")
             if response_headers:
-                response["headers"].append((b"request-id", request_id.encode()))
+                response["headers"].append((self.outgoing_id_header, request_id.encode()))
             return send(response)
 
         if scope["type"] == "http":
