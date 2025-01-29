@@ -34,7 +34,7 @@ class RequestIDMiddleware:
         def send_wrapper(response):
             response_headers = response.get("headers")
             if response_headers:
-                response["headers"].append((self.outgoing_id_header, request_id.encode()))
+                response["headers"].append((self.outgoing_id_header.encode(), request_id.encode()))
             return send(response)
 
         if scope["type"] == "http":
