@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "asgi-request-id"
-version = "0.2.0"
+version = "0.2.1"
 description = "ASGI request id middleware"
 authors = ["Arni Inaba Kjartansson <arni@inaba.is>"]
 maintainers = ["Fabio Greco <fabio.greco.github@gmail.com>"]
