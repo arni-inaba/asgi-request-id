@@ -22,21 +22,22 @@ class RequestIdMiddleware:
 
     Args:
         app (ASGIApp): The ASGI application
-        excluded_paths_patterns (list[re.Pattern]): Compiled regex patterns for paths to exclude from timing.
         excluded_paths (list[str | None]): List of paths to exclude from timing.
+        excluded_paths_patterns (list[re.Pattern]): Compiled regex patterns for paths to exclude from timing.
         incoming_request_id_header (string): Optional incoming request ID header
         outgoing_request_id_header (string): Optional outgoing request ID header
         prefix (string): Optional prefix to add to the request ID
         skip_validate_header_name (bool): Optional flag to skip header name validation
+        uuid_generator (callable): Optional UUID generator
     """
     app: ASGIApp
     excluded_paths_patterns: list[re.Pattern] = field(init=False)
     excluded_paths: list[str | None] = field(init=True, default_factory=lambda: _DEFAULT_EXCLUDED_PATHS)
     incoming_request_id_header: str = field(init=True, default=_DEFAULT_HEADER_NAME)
     outgoing_request_id_header: str = field(init=True, default=_DEFAULT_HEADER_NAME)
-    uuid_generator: callable = field(init=True, default=_DEFAULT_UUID_GENERATOR)
     prefix: str = field(init=True, default=_DETAULT_PREFIX)
     skip_validate_header_name: bool = field(init=True, default=_DEFAULT_SKIP_VALIDATE_HEADER_NAME)
+    uuid_generator: callable = field(init=True, default=_DEFAULT_UUID_GENERATOR)
 
     @validate_header_name(skip=skip_validate_header_name)
     def __post_init__(self) -> None:
