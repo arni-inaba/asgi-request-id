@@ -48,10 +48,11 @@ python = ">=3.11,<4.0"
 starlette = ">=0.45.3"
 
 [tool.poetry.group.dev.dependencies]
-uvicorn = "*"
-pytest = "*"
-starlette = "*"
 httpx = "*"
+pytest = "*"
+pytest-asyncio = "*"
+starlette = "*"
+uvicorn = "*"
 
 [build-system]
 requires = ["poetry-core"]
