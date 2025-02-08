@@ -9,7 +9,7 @@ from .constants import (
     _DEFAULT_EXCLUDED_PATHS,
     _DEFAULT_HEADER_NAME,
     _DEFAULT_UUID_GENERATOR,
-    _DETAULT_PREFIX,
+    _DEFAULT_PREFIX,
     _DEFAULT_SKIP_VALIDATE_HEADER_NAME,
 )
 
@@ -35,7 +35,7 @@ class RequestIdMiddleware:
     excluded_paths: list[str | None] = field(init=True, default_factory=lambda: _DEFAULT_EXCLUDED_PATHS)
     incoming_request_id_header: str = field(init=True, default=_DEFAULT_HEADER_NAME)
     outgoing_request_id_header: str = field(init=True, default=_DEFAULT_HEADER_NAME)
-    prefix: str = field(init=True, default=_DETAULT_PREFIX)
+    prefix: str = field(init=True, default=_DEFAULT_PREFIX)
     skip_validate_header_name: bool = field(init=True, default=_DEFAULT_SKIP_VALIDATE_HEADER_NAME)
     uuid_generator: callable = field(init=True, default=_DEFAULT_UUID_GENERATOR)
 
