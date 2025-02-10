@@ -15,57 +15,27 @@
 - [Installation 📦](#installation)
 - [Usage 🚀](#usage)
 - [Middleware 🛠️](#middleware)
-    - [Example 🔍](#example)
+  - [Example 🔍](#example)
 - [Logging 📝](#logging)
 
-## installation 📦
+## Installation 📦
 
 ```
 pip install asgi-request-id
 ```
 
-## usage 🚀
+## Usage 🚀
 
-```python
-import logging
-import uvicorn
+The `asgi-request-id` middleware performs the following actions:
 
-from starlette.applications import Starlette
-from starlette.responses import PlainTextResponse
+- Searches for an incoming request identifier using the `incoming_request_id_header` attribute and uses it as the request ID if found.
+- Generates a unique request ID with an optional prefix if no incoming request identifier is found.
+- Stores the request ID in a context variable, making it accessible to the logging context through a filter.
+- Includes the request ID in the response headers. If the `outgoing_request_id_header` attribute is set, its value will be used as the response header name. Ensure that the chosen header name complies with HTTP header naming conventions.
 
-from asgi_request_id import RequestIDMiddleware, get_request_id
+For Python 3.6 compatibility, install the backported [contextvars](https://github.com/MagicStack/contextvars) package.
 
-logger = logging.getLogger(__name__)
-app = Starlette()
-
-
-@app.route("/")
-def homepage(request):
-    logger.info(f"Request ID: {get_request_id()}")
-    return PlainTextResponse("hello world")
-
-
-app.add_middleware(
-    RequestIDMiddleware,
-    incoming_request_id_header="x-amzn-trace-id",
-    outgoing_request_id_header="x-amzn-trace-id",
-    prefix="myapp-",
-)
-
-if __name__ == "__main__":
-    uvicorn.run(app)
-```
-
-The package will do the following:
-
-- Search for an incoming request identifier and use it as the request id if found.
-- If it is not found, a unique request id with an optional prefix is generated.
-- The request id is stored in a context variable and made available via `get_request_id`.
-- Finally, the request ID is included in the response headers. If the `outgoing_request_id_header` variable is set, its value will be used as the response header name. Ensure that the chosen header name complies with HTTP header naming conventions.
-
-If you want to use it with python 3.6, you need to install the backported [contextvars](https://github.com/MagicStack/contextvars) package.
-
-## middleware 🛠️
+## Middleware 🛠️
 
 The `RequestIdMiddleware` class is used to handle the request ID header. It has the following attributes:
 
@@ -78,6 +48,9 @@ The `RequestIdMiddleware` class is used to handle the request ID header. It has 
 - `uuid_generator`: Optional UUID generator.
 
 ### Example 🔍
+
+Here is a minimal example demonstrating how to use the `asgi-request-id` middleware. Additional examples with more detailed use cases and configurations can be found in the `examples` folder of the repository.
+
 ```python
 import os
 import uvicorn
@@ -116,7 +89,7 @@ if __name__ == "__main__":
     server.run()
 ```
 
-## logging 📝
+## Logging 📝
 
 To integrate the request ID into your logging, you can use the `RequestIdFilter` class. Here is an example `logging.yaml` configuration:
 
