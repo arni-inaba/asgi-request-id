@@ -70,7 +70,7 @@ If you want to use it with python 3.6, you need to install the backported [conte
 The `RequestIdMiddleware` class is used to handle the request ID header. It has the following attributes:
 
 - `app`: The ASGI application.
-- `excluded_paths`: List of paths to exclude from timing.
+- `excluded_paths`: List of paths to exclude from middleware processing.
 - `incoming_request_id_header`: Optional incoming request ID header.
 - `outgoing_request_id_header`: Optional outgoing request ID header.
 - `prefix`: Optional prefix to add to the request ID.
