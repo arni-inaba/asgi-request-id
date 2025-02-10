@@ -22,8 +22,8 @@ class RequestIdMiddleware:
 
     Args:
         app (ASGIApp): The ASGI application
-        excluded_paths (list[str | None]): List of paths to exclude from timing.
-        excluded_paths_patterns (list[re.Pattern]): Compiled regex patterns for paths to exclude from timing.
+        excluded_paths (list[str | None]): List of paths to exclude from middleware processing.
+        excluded_paths_patterns (list[re.Pattern]): Compiled regex patterns for paths to exclude from middleware processing.
         incoming_request_id_header (string): Optional incoming request ID header
         outgoing_request_id_header (string): Optional outgoing request ID header
         prefix (string): Optional prefix to add to the request ID
