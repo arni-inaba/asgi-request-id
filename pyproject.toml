@@ -6,7 +6,7 @@ authors = ["Arni Inaba Kjartansson <arni@inaba.is>", "Fabio Greco <fabio.greco.g
 maintainers = ["Arni Inaba Kjartansson <arni@inaba.is>", "Fabio Greco <fabio.greco.github@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/feteu/asgi-request-duration"
+homepage = "https://github.com/arni-inaba/asgi-request-id"
 repository = "https://github.com/arni-inaba/asgi-request-id"
 keywords = [
     "asgi",
