@@ -33,8 +33,6 @@ The `asgi-request-id` middleware performs the following actions:
 - Stores the request ID in a context variable, making it accessible to the logging context through a filter.
 - Includes the request ID in the response headers. If the `outgoing_request_id_header` attribute is set, its value will be used as the response header name. Ensure that the chosen header name complies with HTTP header naming conventions.
 
-For Python 3.6 compatibility, install the backported [contextvars](https://github.com/MagicStack/contextvars) package.
-
 ## Middleware 🛠️
 
 The `RequestIdMiddleware` class is used to handle the request ID header. It has the following attributes:
@@ -54,12 +52,13 @@ Here is a minimal example demonstrating how to use the `asgi-request-id` middlew
 ```python
 import os
 import uvicorn
-from asgi_request_id import RequestIdMiddleware
+from asgi_request_id import request_id_ctx_var, RequestIdMiddleware
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Route
 from uuid import uuid4
+
 
 async def info_endpoint(request: Request) -> JSONResponse:
     return JSONResponse({"message": "info"})
@@ -67,9 +66,13 @@ async def info_endpoint(request: Request) -> JSONResponse:
 async def excluded_endpoint(request: Request) -> JSONResponse:
     return JSONResponse({"message": "excluded"})
 
+async def contextvar_endpoint(request: Request) -> JSONResponse:
+    return JSONResponse({"message": request_id_ctx_var.get("-")})
+
 routes = [
     Route("/info", info_endpoint, methods=["GET"]),
     Route("/excluded", excluded_endpoint, methods=["GET"]),
+    Route("/contextvar", contextvar_endpoint, methods=["GET"]),
 ]
 
 app = Starlette(routes=routes)
