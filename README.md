@@ -1,6 +1,6 @@
 [![PyPI - Downloads](https://img.shields.io/pypi/dm/asgi-request-id.svg)](https://pypi.org/project/asgi-request-id/)
 [![PyPI - License](https://img.shields.io/pypi/l/asgi-request-id)](https://pypi.org/project/asgi-request-id/)
-[![PyPI - Version](https://img.shields.io/pypi/v/asgi-claim-validator.svg)](https://pypi.org/project/asgi-request-id/)
+[![PyPI - Version](https://img.shields.io/pypi/v/asgi-request-id.svg)](https://pypi.org/project/asgi-request-id/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/asgi-request-id)](https://pypi.org/project/asgi-request-id/)
 [![PyPI - Status](https://img.shields.io/pypi/status/asgi-request-id)](https://pypi.org/project/asgi-request-id/)
 [![Dependencies](https://img.shields.io/librariesio/release/pypi/asgi-request-id)](https://libraries.io/pypi/asgi-request-id/)
