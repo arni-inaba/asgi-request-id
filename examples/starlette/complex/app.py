@@ -1,7 +1,6 @@
 import os
 import uvicorn
-from asgi_request_id import RequestIdMiddleware
-from collections.abc import Callable
+from asgi_request_id import request_id_ctx_var, RequestIdMiddleware
 from starlette.applications import Starlette
 from starlette.requests import Request
 from starlette.responses import JSONResponse
@@ -15,9 +14,13 @@ async def info_endpoint(request: Request) -> JSONResponse:
 async def excluded_endpoint(request: Request) -> JSONResponse:
     return JSONResponse({"message": "excluded"})
 
+async def contextvar_endpoint(request: Request) -> JSONResponse:
+    return JSONResponse({"message": request_id_ctx_var.get("-")})
+
 routes = [
     Route("/info", info_endpoint, methods=["GET"]),
     Route("/excluded", excluded_endpoint, methods=["GET"]),
+    Route("/contextvar", contextvar_endpoint, methods=["GET"]),
 ]
 
 app = Starlette(routes=routes)
