@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "asgi-request-id"
-version = "1.0.0"
+version = "1.0.1"
 description = "ASGI request id middleware"
 authors = ["Arni Inaba Kjartansson <arni@inaba.is>", "Fabio Greco <fabio.greco.github@gmail.com>"]
 maintainers = ["Arni Inaba Kjartansson <arni@inaba.is>", "Fabio Greco <fabio.greco.github@gmail.com>"]
@@ -29,6 +29,7 @@ classifiers = [
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
     'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
     'Programming Language :: Python',
     'Topic :: Internet :: WWW/HTTP',
     'Topic :: Internet',
@@ -45,7 +46,6 @@ packages = [
 
 [tool.poetry.dependencies]
 python = ">=3.11,<4.0"
-starlette = ">=0.45.3"
 
 [tool.poetry.group.dev.dependencies]
 httpx = "*"
