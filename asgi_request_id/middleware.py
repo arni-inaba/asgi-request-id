@@ -1,8 +1,8 @@
 import logging
 import re
+from collections.abc import Awaitable, Callable, MutableMapping
 from dataclasses import dataclass, field
-from starlette.datastructures import MutableHeaders, URL
-from starlette.types import ASGIApp, Message, Receive, Scope, Send
+from typing import Any
 from .context import request_id_ctx_var
 from .decorators import validate_header_name
 from .constants import (
@@ -14,6 +14,25 @@ from .constants import (
 )
 
 log = logging.getLogger(__name__)
+
+Scope = MutableMapping[str, Any]
+Message = MutableMapping[str, Any]
+Receive = Callable[[], Awaitable[Message]]
+Send = Callable[[Message], Awaitable[None]]
+ASGIApp = Callable[[Scope, Receive, Send], Awaitable[None]]
+
+
+def _get_header(headers: list[tuple[bytes, bytes]], name: str) -> str | None:
+    name_bytes = name.lower().encode("latin-1")
+    for key, value in headers:
+        if key.lower() == name_bytes:
+            return value.decode("latin-1")
+    return None
+
+
+def _append_header(headers: list[tuple[bytes, bytes]], name: str, value: str) -> None:
+    headers.append((name.lower().encode("latin-1"), value.encode("latin-1")))
+
 
 @dataclass
 class RequestIdMiddleware:
@@ -59,14 +78,11 @@ class RequestIdMiddleware:
             await self.app(scope, receive, send)
             return
         
-        url = URL(scope=scope)
-
-        if self._search_patterns_in_string(url.path, self.excluded_paths_patterns):
+        if self._search_patterns_in_string(scope["path"], self.excluded_paths_patterns):
             await self.app(scope, receive, send)
             return
 
-        headers = MutableHeaders(scope=scope)
-        request_id = headers.get(self.incoming_request_id_header)
+        request_id = _get_header(scope["headers"], self.incoming_request_id_header)
         if not request_id:
             request_id = self.prefix + str(self.uuid_generator())
         request_id_ctx_var.set(request_id)
@@ -79,8 +95,7 @@ class RequestIdMiddleware:
                 message (Message): The ASGI message.
             """
             if message["type"] == "http.response.start":
-                headers = MutableHeaders(scope=message)
-                headers.append(self.outgoing_request_id_header, request_id_ctx_var.get())                
+                _append_header(message["headers"], self.outgoing_request_id_header, request_id_ctx_var.get())
             await send(message)
         
         await self.app(scope, receive, wrapped_send)
